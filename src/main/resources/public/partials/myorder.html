@@ -1,0 +1,107 @@
+<!-- 提示框 -->
+<div class="modal fade" id="no_money" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">提示框</h4>
+			</div>
+			<div class="modal-body"
+				style="height: 80px; color: red; text-align: center;">
+				<b>对不起，您的余额不足，支付失败！！<br>请先充值后再进行支付！
+				</b>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 我的订单列表 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-9 ">
+				<h3>我的订单</h3>
+			</div>
+			<div class="col-sm-2 input-group" style="margin-top: 20px">
+				<input type="text" class="form-control" ng-model="goods"
+					placeholder=" 请输入搜索内容"><span class="input-group-addon"><span
+					class="glyphicon glyphicon-search search-icon"></span> </span>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body scroll_bar">
+		<table class="table">
+			<thead>
+				<tr>
+					<th style="width: 10%">订单ID</th>
+					<th style="width: 11%">商品名</th>
+					<th style="width: 10%">商品金额</th>
+					<th style="width: 11%">商铺名</th>
+					<th style="width: 10%">买家状态</th>
+					<th style="width: 10%">卖家状态</th>
+					<th style="width: 10%">收货状态</th>
+					<th style="width: 10%">订单状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="x in orders | filter:goods | orderBy:'country'">
+					<td>{{x.order_id}}</td>
+					<td>{{x.item_name}}</td>
+					<td>{{x.item_price}}</td>
+					<td>{{x.store_name}}</td>
+					<!-- 买家状态 -->
+					<td>{{x | Pay_Status}}</td>
+					<!-- 卖家状态 -->
+					<td>{{x | Isship}}</td>
+					<!-- 收货状态 -->
+					<td>{{x | Receipt_Status}}</td>
+					<!-- 订单状态 -->
+					<td>{{x | Order_Status}}</td>
+					<!-- 买家状态 -->
+					<!-- <td ng-if="x.order_state===2">-</td>
+					<td ng-if="x.payment_state===0 && x.order_state===0">未支付</td>
+					<td ng-if="x.payment_state===1">已支付</td> -->
+					<!-- 卖家状态 -->
+					<!-- <td ng-if="x.order_state===2">-</td>
+					<td ng-if="x.send_state===0 && x.order_state===0">未发货</td>
+					<td ng-if="x.send_state===1">已发货</td> -->
+					<!-- 收货状态 -->
+					<!-- <td ng-if="x.order_state===2">-</td>
+					<td ng-if="x.save_state===0 && x.order_state===0">未收货</td>
+					<td ng-if="x.save_state===1">已收货</td> -->
+					<!-- 订单状态 -->
+					<!-- <td ng-if="x.order_state===0">未完成</td>
+					<td ng-if="x.order_state===1">已完成</td>
+					<td ng-if="x.order_state===2">已取消</td> -->
+					<!-- 操作按钮 -->
+					<!-- 可将此项改成提醒卖家发货 -->
+					<td ng-if="x.payment_state===1 && x.send_state===0 "
+						style="color: blue">等待卖家发货...</td>
+					<td
+						ng-if="x.payment_state===0 && x.send_state===0 && x.order_state===0">
+						<span class="btn btn-info btn-sm" ng-click="pay_order(x.order_id)"><i
+							class="glyphicon glyphicon-saved"></i>支付 </span>&emsp; <span
+						class='btn btn-success btn-sm' role="button"
+						ng-click="cancel_order(x.order_id)"><i
+							class="glyphicon glyphicon-remove"></i>取消</span>
+					</td>
+					<td
+						ng-if="x.payment_state===1 && x.send_state===1 && x.save_state===0">
+						<span class="btn btn-info btn-sm"
+						ng-click="affirm_goods(x.order_id)"><i
+							class="glyphicon glyphicon-check"></i>收货</span>
+					</td>
+					<td
+						ng-if="x.payment_state===1 && x.send_state===1 && x.order_state===1 || x.order_state===2">
+						<span class="btn btn-danger btn-sm" role="button"
+						ng-click="del_order(x.order_id)"><i
+							class="glyphicon glyphicon-trash"></i>删除 </span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+ <div ui-view="home" ></div>
+</div>

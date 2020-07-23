@@ -1,0 +1,50 @@
+<!-- 订单管理 -->
+<div class="panel-body">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>订单ID</th>
+				<th>商品ID</th>
+				<th>商品名</th>
+				<th>商品金额</th>
+				<th>买家状态</th>
+				<th>卖家状态</th>
+				<th>订单状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="x in orders| filter:goods | orderBy:'country'"
+				style="text-align: center;">
+				<td>{{x.order_id}}</td>
+				<td>{{x.item_id}}</td>
+				<td>{{x.item_name}}</td>
+				<td>{{x.item_price}}</td>
+				<!-- 买家状态 -->
+				<td>{{x | Pay_Status}}</td>
+				<!-- 卖家状态 -->
+				<td>{{x | Isship}}</td>
+				<!-- 收货状态 -->
+				<td>{{x | Receipt_Status}}</td>
+				<!-- 订单状态 -->
+				<td>{{x | Order_Status}}</td>
+				<!-- 买家状态 -->
+				<!-- <td ng-if="x.order_state==2">-</td>
+				<td ng-if="x.payment_state==0 && x.order_state==0">未支付</td>
+				<td ng-if="x.payment_state==1">已支付</td> -->
+				<!-- 卖家状态 -->
+				<!-- <td ng-if="x.order_state==2">-</td>
+				<td ng-if="x.send_state==0 && x.order_state==0">未发货</td>
+				<td ng-if="x.send_state==1">已发货</td> -->
+				<!-- 订单状态 -->
+				<!-- <td ng-if="x.order_state==0">未完成</td>
+				<td ng-if="x.order_state==1">已完成</td>
+				<td ng-if="x.order_state==2">已取消</td> -->
+				<!-- 操作按钮 -->
+				<td ng-if="x.payment_state==1 && x.send_state==0"><span
+					class='btn btn-info btn-sm' ng-click="send_goods(x.order_id)"><i
+						class="glyphicon glyphicon-new-window"></i>发货 </span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

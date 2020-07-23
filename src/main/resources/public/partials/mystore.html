@@ -1,0 +1,98 @@
+<!-- 店铺信息 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-9 ">
+				<h3>我的店铺</h3>
+			</div>
+			<div class="col-sm-2 input-group" style="margin-top: 20px">
+				<input type="text" class="form-control" ng-model="goods"
+					placeholder=" 请输入搜索内容"><span class="input-group-addon"><span
+					class="glyphicon glyphicon-search search-icon"></span> </span>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<p>
+			店铺名：<b>{{stores.store_name}}</b><br> 店铺ID：<b>{{stores.store_id}}</b><br>
+			余&emsp;额：<b>{{stores.money}}</b>(元)&emsp;<a href="javascript:void(0)">提现</a><br>
+			未到账的余额：<b>{{stores.road_money}}</b>(元)<br>
+		</p>
+		<hr class="divider">
+	</div>
+	<div class="row">
+		<div class="col-sm-2">
+			<div class="row">
+				<div class="col-sm-10" style="text-align: right;">
+					<ul class="nav nav-pills nav-stacked">
+						<li role="presentation"><span class="btn btn-primary "
+							ui-sref="index.store.item_list">商品一览</span></li>
+						<li role="presentation"><span class="btn btn-primary "
+							ui-sref="index.store.order_list">出售订单</span></li>
+						<li role="presentation"><span class="btn btn-primary"
+							ng-click="edit_item('new')">新增商品</span></li>
+					</ul>
+				</div>
+				<div class="col-sm-2">
+					<table>
+						<tr>
+							<td bgcolor="#CCCCCC" style="width: 2px; height: 120px;" />
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-9 scroll_bar">
+			<div ui-view></div>
+		</div>
+	</div>
+	<!-- 新增/修改商品  -->
+	<div class="modal fade" id="edit" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" ng-show="edit">新增商品</h4>
+					<h4 class="modal-title" ng-hide="edit">修改商品</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" name="myForm" novalidate>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商品名</label>
+							<div class="col-sm-10">
+								<input ng-model="item.item_id" type="hidden" ng-hide="edit"
+									disabled="true"> <input ng-model="item.item_name"
+									name="item_name" type="text" class="form-control"
+									placeholder="请输入商品名" required><span style="color: red"
+									ng-show="myForm.item_name.$dirty && myForm.item_name.$invalid">
+									<span ng-show="myForm.item_name.$error.required">商品名不能为空！</span>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">商品价格</label>
+							<div class="col-sm-10">
+								<input ng-model="item.item_price" name="item_price"
+									type="text" class="form-control" placeholder="请输入商品价格" required><span
+									style="color: red"
+									ng-show="myForm.item_price.$dirty && myForm.item_price.$invalid">
+									<span ng-show="myForm.item_price.$error.required">商品价格不能为空！</span>
+								</span>
+							</div>
+						</div>
+						<div id="div1" style="color: red; text-align: center;"></div>
+						<div class="modal-footer">
+							<button id="close_modal" type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary"
+								ng-disabled=" myForm.item_name.$invalid || myForm.item_price.$invalid"
+								ng-click="submits('edit');">提交</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,26 @@
+<!-- 商品管理 -->
+<table class="table">
+	<thead>
+		<tr>
+			<th>商品ID</th>
+			<th>商品名</th>
+			<th>商品价格</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="x in items | filter:goods | orderBy:'country'" style="text-align: center;">
+			<!-- <td ng-hide="true">{{ $index + 1 }}</td> -->
+			<td>{{x.item_id}}</td>
+			<td>{{x.item_name}}</td>
+			<td>¥ {{x.item_price}}</td>
+			<td><span class="btn btn-primary btn-sm"
+				ng-click="edit_item(x.item_id)"><i
+					class="glyphicon glyphicon-edit"></i>编辑</span>&emsp; <span
+				class="btn btn-danger btn-sm" ng-click="submits(x.item_id)"><i
+					class="glyphicon glyphicon-trash"></i>删除</span></td>
+		</tr>
+	</tbody>
+</table>
+
+

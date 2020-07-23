@@ -1,0 +1,153 @@
+<!-- 商品一览列表 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-9 ">
+				<h3>商品一览</h3>
+			</div>
+			<div class="col-sm-2 input-group" style="margin-top: 20px">
+				<input type="text" class="form-control" ng-model="goods"
+					placeholder=" 请输入搜索内容"><span class="input-group-addon"><span
+					class="glyphicon glyphicon-search search-icon"></span> </span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4 ">
+			<h4>商品列表 / 购物车</h4>
+		</div>
+		<div class="col-md-6 ">
+			<ul class="nav navbar-nav ">
+				<li><a href="javascript:void(0)" ng-Mouseenter="shop_show()"
+					ng-Mouseleave="shop_hide()">我的<span
+						class="glyphicon glyphicon-shopping-cart" title="我的购物车"></span>
+						(共{{vm.cartCount()}}件 总计 {{vm.cartTotal()}} 元)
+				</a>
+					<ul class="dropdown-menu " role="menu" id="shop_cart"
+						ng-Mouseenter="shop_show()" ng-Mouseleave="shop_hide()">
+						<li style="width: 400px">
+							<div class="alert alert-info" ng-if="!vm.cart.lines.length"
+								style="margin: 0 auto; text-align: center; font-size: 15px; font-weight: bold;">请先添加商品</div>
+							<table class="table table-bordered table-hover"
+								ng-if="vm.cart.lines.length > 0">
+								<thead>
+									<tr>
+										<th>商品ID</th>
+										<th>商品名称</th>
+										<th>购买数量</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="line in vm.cart.lines"
+										ng-class="{removed: line.quantity <= 0}">
+										<td>{{line.item_id}}</td>
+										<td>{{line.item_name}}</td>
+										<td><span class="btn btn-primary btn-sm"
+											ng-click="vm.decrementQuantity(line)"><i
+												class="glyphicon glyphicon-minus"></i></span> <!-- <input class="border"
+											type="number" min=0 ng-model="value.num"
+											ng-init="value.num=1"
+											ng-change="changeNum(value.id,value.num);" />  -->
+											{{line.quantity}} <span class="btn btn-primary btn-sm"
+											role="button" ng-click="vm.incrementQuantity(line)"><i
+												class="glyphicon glyphicon-plus"></i></span></td>
+										<td><span class="btn btn-danger btn-sm" role="button"
+											ng-click="vm.removeFromCart(line)"><i
+												class="glyphicon glyphicon-remove"></i>移除</span> <span
+											class="btn btn-warning btn-sm" role="button"
+											ng-click="buy_item(line.item_id);vm.removeFromCart(line)">立即购买</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</li>
+					</ul></li>
+			</ul>
+
+		</div>
+		<div class="col-md-2" style="text-align: right;">
+			<button type="button" class="btn btn-default" ng-click="list_click()">
+				<span class="glyphicon glyphicon-list" ng-show="list"></span> <span
+					class="glyphicon glyphicon-th-large" ng-hide="list"></span>
+			</button>
+		</div>
+	</div>
+	<hr class="divider">
+	<div class="scroll_bar">
+		<!-- 列表显示商品 -->
+		<div class="panel-body" ng-show="list">
+			<!-- <hr class="divider"> -->
+			<table class="table table-striped table-hover table-striped">
+				<thead>
+					<tr>
+						<th>商品ID</th>
+						<th>商品名</th>
+						<th>商品金额</th>
+						<th>商铺名</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="x in vm.items |  filter:goods | orderBy:'country'"
+						style="text-align: center;">
+						<td>{{x.item_id}}</td>
+						<td>{{x.item_name}}</td>
+						<td>¥ {{x.item_price}}</td>
+						<td>{{x.store_name}}</td>
+						<td><span class="btn btn-primary btn-sm" role="button"
+							ng-click="vm.addToCart(x)" title="加入购物车"><i
+								class="glyphicon glyphicon-shopping-cart"></i></span> <span
+							class="btn btn-warning btn-sm" role="button"
+							ng-click="buy_item(x.item_id)" title="直接购买当前商品">立即购买</span>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 矩阵显示商品 -->
+		<div class="row" ng-hide="list">
+			<div class="col-sm-6 col-md-4" ng-repeat="x in vm.items">
+				<div class="thumbnail">
+					<img ng-src="images/{{item.thumbnail}}" alt="{{item.label}}">
+					<div class="caption">
+						<h3>
+							{{x.item_name}} <small>{{x.item_id}}</small>
+						</h3>
+						<h4 style="color: #1874CD">¥ {{x.item_price}}</h4>
+						<div class="items-details">{{x.store_name}}</div>
+						<p class="text-right">
+							<span class="btn btn-primary btn-sm" role="button" ng-click=""
+								title="加入购物车"><i
+								class="glyphicon glyphicon-shopping-cart"></i></span> <span
+								class="btn btn-warning btn-sm" role="button"
+								ng-click="buy_item(x.item_id)" title="直接购买当前商品">立即购买</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 提示框 -->
+<div class="modal fade" id="no_login" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">提示框</h4>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body" style="text-align: center; color: red;">
+					<div class="form-group">
+						<b>亲~您还没登录~<br>请登录后再点击购买！
+						</b>
+					</div>
+					<div class="form-group" style="margin-bottom: -10px">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">关闭窗口去登录</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
